@@ -31,27 +31,28 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "TestOpMode", group = "Linear Opmode")
 public class TestOpMode extends LinearOpMode {
 
+    private DcMotor motor1;
+
     @Override
     public void runOpMode() {
-        //TODO: code
-        telemetry.addData("t", "t");
-        telemetry.update();
-        ThreadTest thread = new ThreadTest(telemetry);
+        motor1 = hardwareMap.dcMotor.get("motor1");
+
+        ThreadTest thread = new ThreadTest(telemetry, hardwareMap);
         thread.start();
 
         ElapsedTime timer = new ElapsedTime();
         while (timer.seconds() < 5) {
-            telemetry.addData("t", timer.seconds());
+            telemetry.addData("thread1", timer.seconds()/5);
+            motor1.setPower(timer.seconds()/5);
             telemetry.update();
         }
+        stop();
 
     }
 }
